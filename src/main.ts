@@ -56,7 +56,6 @@ const bootstrapServer = async (processors: string[]) => {
   const server = ServerBuilder.init()
     .useDataSource({ ...dataSource, migrate: true })
     .useLedger(ledger)
-    //.useProcessors(processors)
     .build()
 
   const options: ServerOptions = {
@@ -67,8 +66,9 @@ const bootstrapServer = async (processors: string[]) => {
   await server.start(options)
 }
 
+
 // configure processor for bridge-service
-const bootstrapProcessor = async (handle: string) => {
+ const bootstrapProcessor = async (handle: string) => {
   const processor = ProcessorBuilder.init()
     .useDataSource(dataSource)
     .useLedger(ledger)
@@ -77,11 +77,13 @@ const bootstrapProcessor = async (handle: string) => {
     .build()
 
   const options: ProcessorOptions = {
-    handle
+    handle : "bbva"
   }
 
   await processor.start(options)
 }
+
+
 
 // configure Bridge SDK
 const boostrap = async () => {

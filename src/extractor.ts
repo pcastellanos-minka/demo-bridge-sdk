@@ -1,5 +1,5 @@
 // Populate this with the wallet handle you created, should be env var
-const BANK_WALLET = "mint";
+const BANK_WALLET = "bbva";
 
 // Factor for usd is 100
 const USD_FACTOR = 100;
