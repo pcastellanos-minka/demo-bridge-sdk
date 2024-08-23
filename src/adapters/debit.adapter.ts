@@ -4,7 +4,7 @@ import {
     IBankAdapter,
     ResultStatus,
     PrepareResult,
-    TransactionContext,
+    TransactionContext
   } from '@minka/bridge-sdk'
   import { LedgerErrorReason } from '@minka/bridge-sdk/errors'
   
@@ -46,5 +46,15 @@ import {
       }
   
       return Promise.resolve(result)
+    }
+
+    getEntry(context: TransactionContext):{schema:string,target:string, source:string, amount:number,symbol:string}{
+        return {
+            schema: context.entry.schema,
+            target: context.entry.target!.handle,
+            source: context.entry.source!.handle,
+            amount: context.entry.amount,
+            symbol: context.entry.symbol.handle
+            }
     }
   }
