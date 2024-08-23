@@ -18,7 +18,7 @@ import {
       let result: PrepareResult
   
       result = {
-        status: ResultStatus.Suspended,
+        status: ResultStatus.Prepared
       }
   
       return Promise.resolve(result)
@@ -42,7 +42,7 @@ import {
       let result: CommitResult
   
       result = {
-        status: ResultStatus.Suspended,
+        status: ResultStatus.Committed,
       }
   
       return Promise.resolve(result)

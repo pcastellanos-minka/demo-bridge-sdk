@@ -47,12 +47,12 @@ const ledger: LedgerClientOptions = {
       public: config.BRIDGE_PUBLIC_KEY,
       secret: config.BRIDGE_SECRET_KEY,
     },
-    handle: 'mint',
+    handle: 'bbva',
   },
 }
 
 // configure server for bridge service
-const bootstrapServer = async (processors: string[]) => {
+const bootstrapServer = async () => {
   const server = ServerBuilder.init()
     .useDataSource({ ...dataSource, migrate: true })
     .useLedger(ledger)
@@ -60,7 +60,7 @@ const bootstrapServer = async (processors: string[]) => {
 
   const options: ServerOptions = {
     port: config.PORT,
-    routePrefix: 'v2',
+    routePrefix: 'v2'
   }
 
   await server.start(options)
@@ -77,7 +77,7 @@ const bootstrapServer = async (processors: string[]) => {
     .build()
 
   const options: ProcessorOptions = {
-    handle : "bbva"
+    handle,
   }
 
   await processor.start(options)
@@ -89,7 +89,7 @@ const bootstrapServer = async (processors: string[]) => {
 const boostrap = async () => {
   const processors = ['proc-0']
 
-  await bootstrapServer(processors)
+  await bootstrapServer()
 
   // wait for migrations to execute
   await sleep(2000)

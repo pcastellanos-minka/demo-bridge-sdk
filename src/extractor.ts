@@ -1,6 +1,7 @@
 // Populate this with the wallet handle you created, should be env var
 const BANK_WALLET = "bbva";
-
+const SCHEMA = "svgs";
+const SYMBOL= "cop";
 // Factor for usd is 100
 const USD_FACTOR = 100;
 
@@ -19,7 +20,7 @@ export function extractAndValidateAddress(address: string) {
       `Expected address parent to be ${BANK_WALLET}, got ${parent}`
     );
   }
-  if (schema !== "account") {
+  if (schema !== SCHEMA) {
     throw new Error(`Expected address schema to be account, got ${schema}`);
   }
   if (!account || account.length === 0) {
@@ -44,8 +45,8 @@ export function extractAndValidateAmount(rawAmount: number) {
 export function extractAndValidateSymbol(symbol: string) {
   // In general symbols other than usd are possible, but
   // we only support usd in the tutorial
-  if (symbol !== "usd") {
-    throw new Error(`Symbol usd expected, got ${symbol}`);
+  if (symbol !== SYMBOL) {
+    throw new Error(`Symbol ${SYMBOL} expected, got ${symbol}`);
   }
   return symbol;
 }
