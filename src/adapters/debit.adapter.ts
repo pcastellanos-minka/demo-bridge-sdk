@@ -53,10 +53,32 @@ import {
       console.log('RECEIVED POST /v2/debits/abort')
   
       let result: AbortResult
-  
+      let transaction
+
+    try {
+      const extractedData = extractor.extractAndValidateData(this.getEntry(context))
+
+      if (context.previous!.job.state.result.status === ResultStatus.Prepared) {
+        transaction = core.release(
+          extractedData.address.account,
+          extractedData.amount,
+          `${context.entry.handle}-release`,
+        )
+
+        if (transaction.status !== 'COMPLETED') {
+          throw new Error(transaction.errorReason)
+        }
+      }
+
       result = {
         status: ResultStatus.Aborted,
+        coreId: transaction!.id.toString(),
       }
+    } catch (e) {
+      result = {
+        status: ResultStatus.Suspended,
+      }
+    }
   
       return Promise.resolve(result)
     }
