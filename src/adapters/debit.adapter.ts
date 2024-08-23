@@ -16,9 +16,34 @@ import {
       console.log('RECEIVED POST /v2/debits')
   
       let result: PrepareResult
+      let transaction
+
+      try {
+        const extractedData = extractor.extractAndValidateData(this.getEntry(context))
   
-      result = {
-        status: ResultStatus.Suspended,
+        transaction = core.hold(
+          extractedData.address.account,
+          extractedData.amount,
+          `${context.entry.handle}-hold`,
+        )
+  
+        if (transaction.status !== 'COMPLETED') {
+          throw new Error(transaction.errorReason)
+        }
+  
+        result = {
+          status: ResultStatus.Prepared,
+          coreId: transaction.id.toString(),
+        }
+      } catch (e: any) {
+        result = {
+          status: ResultStatus.Failed,
+          error: {
+            reason: LedgerErrorReason.BridgeUnexpectedCoreError,
+            detail: e.message,
+            failId: undefined,
+          },
+        }
       }
   
       return Promise.resolve(result)
@@ -30,7 +55,7 @@ import {
       let result: AbortResult
   
       result = {
-        status: ResultStatus.Suspended,
+        status: ResultStatus.Aborted,
       }
   
       return Promise.resolve(result)
@@ -40,9 +65,39 @@ import {
       console.log('RECEIVED POST /v2/debits/commit')
   
       let result: CommitResult
+      let transaction
+
+      try {
+        const extractedData = extractor.extractAndValidateData(this.getEntry(context))
   
-      result = {
-        status: ResultStatus.Suspended,
+        transaction = core.release(
+          extractedData.address.account,
+          extractedData.amount,
+          `${context.entry.handle}-release`,
+        )
+  
+        if (transaction.status !== 'COMPLETED') {
+          throw new Error(transaction.errorReason)
+        }
+  
+        transaction = core.debit(
+          extractedData.address.account,
+          extractedData.amount,
+          `${context.entry.handle}-debit`,
+        )
+  
+        if (transaction.status !== 'COMPLETED') {
+          throw new Error(transaction.errorReason)
+        }
+  
+        result = {
+          status: ResultStatus.Committed,
+          coreId: transaction.id.toString(),
+        }
+      } catch (e) {
+        result = {
+          status: ResultStatus.Suspended,
+        }
       }
   
       return Promise.resolve(result)
