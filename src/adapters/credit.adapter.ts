@@ -4,7 +4,7 @@ import {
     IBankAdapter,
     ResultStatus,
     PrepareResult,
-    TransactionContext,
+    TransactionContext
   } from '@minka/bridge-sdk'
   import { LedgerErrorReason } from '@minka/bridge-sdk/errors'
   
@@ -17,15 +17,8 @@ import {
   
       let result: PrepareResult
         
-      const entry =  {
-        schema: context.entry.schema,
-        target: context.entry.target!.handle,
-        source: context.entry.source!.handle,
-        amount: context.entry.amount,
-        symbol: context.entry.symbol.handle
-        }; 
       try {
-        const extractedData = extractor.extractAndValidateData(entry)
+        const extractedData = extractor.extractAndValidateData(this.getEntry(context))
 
         const coreAccount = core.getAccount(
           extractedData.address?.account,
@@ -65,11 +58,41 @@ import {
       console.log('RECEIVED POST /v2/credits/commit')
   
       let result: CommitResult
-  
-      result = {
-        status: ResultStatus.Committed,
-      }
-  
+      let transaction
+    
+        try {
+        const extractedData = extractor.extractAndValidateData(this.getEntry(context))
+
+        transaction = core.credit(
+            extractedData.address.account,
+            extractedData.amount,
+            `${context.entry.handle}-credit`,
+        )
+
+        if (transaction.status !== 'COMPLETED') {
+            throw new Error(transaction.errorReason)
+        }
+
+        result = {
+            status: ResultStatus.Committed,
+            coreId: transaction.id.toString(),
+        }
+        } catch (e) {
+        result = {
+            status: ResultStatus.Suspended,
+        }
+        }
+
       return Promise.resolve(result)
+    } 
+
+    getEntry(context: TransactionContext):{schema:string,target:string, source:string, amount:number,symbol:string}{
+        return {
+            schema: context.entry.schema,
+            target: context.entry.target!.handle,
+            source: context.entry.source!.handle,
+            amount: context.entry.amount,
+            symbol: context.entry.symbol.handle
+            }
     }
   }
