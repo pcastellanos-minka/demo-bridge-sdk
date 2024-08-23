@@ -21,7 +21,7 @@ export function extractAndValidateAddress(address: string) {
     );
   }
   if (schema !== SCHEMA) {
-    throw new Error(`Expected address schema to be account, got ${schema}`);
+    throw new Error(`Expected address schema to be ${SCHEMA}, got ${schema}`);
   }
   if (!account || account.length === 0) {
     throw new Error("Account missing from credit request");
