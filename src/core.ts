@@ -152,10 +152,10 @@ export class CoreError extends Error {
       this.accounts.set('1', new Account('1'))
   
       // account with available balance 70
-      this.accounts.set('2', new Account('2'))
-      this.credit('2', 100000000)
-      this.debit('2', 10)
-      this.hold('2', 20)
+      this.accounts.set('424242', new Account('424242'))
+      this.credit('424242', 100000000)
+      this.debit('424242', 10)
+      this.hold('424242', 20)
   
       // account with no available balance 0
       this.accounts.set('3', new Account('3'))

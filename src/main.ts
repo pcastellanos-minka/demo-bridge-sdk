@@ -47,7 +47,7 @@ const ledger: LedgerClientOptions = {
       public: config.BRIDGE_PUBLIC_KEY,
       secret: config.BRIDGE_SECRET_KEY,
     },
-    handle: 'bbva',
+    handle: 'bridge-test@mintbank.dev',
   },
 }
 

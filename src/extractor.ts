@@ -1,7 +1,7 @@
 // Populate this with the wallet handle you created, should be env var
-const BANK_WALLET = "bbva";
-const SCHEMA = "svgs";
-const SYMBOL= "cop";
+const BANK_WALLET = "redbank.io";
+const SCHEMA = "tran";
+const SYMBOL= "usd";
 // Factor for usd is 100
 const USD_FACTOR = 100;
 

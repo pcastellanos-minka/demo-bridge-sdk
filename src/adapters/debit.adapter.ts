@@ -13,7 +13,7 @@ import {
   
   export class SyncDebitBankAdapter extends IBankAdapter {
     prepare(context: TransactionContext): Promise<PrepareResult> {
-      console.log('RECEIVED POST /v2/debits')
+      console.log('RECEIVED POST /v2/debits test')
   
       let result: PrepareResult
       let transaction
@@ -76,7 +76,7 @@ import {
       }
     } catch (e) {
       result = {
-        status: ResultStatus.Suspended,
+        status: ResultStatus.Aborted,
       }
     }
   
