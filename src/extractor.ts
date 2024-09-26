@@ -1,7 +1,7 @@
 // Populate this with the wallet handle you created, should be env var
-const BANK_WALLET = "redbank.io";
-const SCHEMA = "tran";
-const SYMBOL= "usd";
+const BANK_WALLET = "mintbank.dev";
+const SCHEMAS = ["caho", "ccte","dbmo"];
+const SYMBOLS= ["usd","cop"];
 // Factor for usd is 100
 const USD_FACTOR = 100;
 
@@ -20,8 +20,8 @@ export function extractAndValidateAddress(address: string) {
       `Expected address parent to be ${BANK_WALLET}, got ${parent}`
     );
   }
-  if (schema !== SCHEMA) {
-    throw new Error(`Expected address schema to be ${SCHEMA}, got ${schema}`);
+  if (!SCHEMAS.find(s=> s==schema)) {
+    throw new Error(`Expected address schema to be ${SCHEMAS}, got ${schema}`);
   }
   if (!account || account.length === 0) {
     throw new Error("Account missing from credit request");
@@ -45,8 +45,8 @@ export function extractAndValidateAmount(rawAmount: number) {
 export function extractAndValidateSymbol(symbol: string) {
   // In general symbols other than usd are possible, but
   // we only support usd in the tutorial
-  if (symbol !== SYMBOL) {
-    throw new Error(`Symbol ${SYMBOL} expected, got ${symbol}`);
+  if (!SYMBOLS.find(s=> s==symbol)) {
+    throw new Error(`Symbol ${SYMBOLS} expected, got ${symbol}`);
   }
   return symbol;
 }
