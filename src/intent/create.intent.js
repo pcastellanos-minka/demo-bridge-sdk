@@ -8,7 +8,7 @@ const config = {
     LEDGER_SERVER: "https://ldg-stg.one/api/v2",
     LEDGER_HANDLE: "achco",
     INTENT_PUBLIC_KEY: "SB/1WQzIujGxHVz9Yt54zpj+MedKT6uKfionadT0PzU=",
-    INTENT_PRIVATE_KEY:"zVq1QjJVDTobAw/OPBRZypzP9ecTuPRhP1qNylS73J0="
+    INTENT_PRIVATE_KEY:""
 }
 
 const sdk = new LedgerSdk({
