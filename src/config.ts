@@ -3,6 +3,8 @@ import { cleanEnv, host, num, port, str } from 'envalid'
 export const config = cleanEnv(process.env, {
   BRIDGE_PUBLIC_KEY: str({ desc: 'Bridge public key' }),
   BRIDGE_SECRET_KEY: str({ desc: 'Bridge private key' }),
+  INTENT_PUBLIC_KEY: str({ desc: 'Signer to create intent - public key' }),
+  INTENT_PRIVATE_KEY: str({ desc: 'Signer to create intent  - private key' }),
   LEDGER_HANDLE: str({ desc: 'Ledger name' }),
   LEDGER_SERVER: str({ desc: 'Ledger URL' }),
   LEDGER_PUBLIC_KEY: str({ desc: 'Ledger public key' }),
